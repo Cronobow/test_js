@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Light ON</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <nav class="nav nav-pills nav-justified">
+        <a class="nav-link active" href="index.html">Q1</a>
+        <a class="nav-link" href="id.html">Q2</a>
+        <a class="nav-link" href="todo-1.html">Q3</a>
+        <a class="nav-link" href="todo-2.html">Q4</a>
+        <a class="nav-link" href="todo-3.html">Q5</a>
+      </nav>
+    </div>
+    <div class="row justify-content-center mt-5">
+      <form>
+        <div class="form-row align-items-center">
+          <div class="col-auto">
+            <input type="text" class="form-control" id="timeinput" placeholder="請輸入倒數秒數">
+          </div>
+          <div class="col-auto">
+            <input type="button" id="settime" class="btn btn-primary" value="關燈倒數" onclick="setTime();">
+          </div>
+          <div class="col-auto">
+            <div class="btn btn-primary" id="timer">-</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-6 col-9">
+        <img src="img/on.jpg" alt="" class="img-fluid" id="image">
+      </div>
+      <div class="col-md-1 col-2">
+        <button class="btn btn-success btn-lg" onclick="togglelight();">On
+          <br>-
+          <br>Off</button>
+      </div>
+    </div>
+  </div>
+  <script>
+  var state = true;
+
+  function togglelight() {
+    var img = document.getElementById("image");
+    state = !state;
+    img.src = state ? "img/on.jpg" : "img/off.jpg"
+  }
+
+  function setTime() {
+    var timeLeft = parseInt(document.getElementById("timeinput").value);
+
+    if (isNaN(timeLeft)) {
+      document.getElementById("settime").value = "請輸入數字";
+    } else if (timeLeft <= 0) {
+      document.getElementById("settime").value = "請輸入大於 0 的秒數";
+    } else {
+      document.getElementById("image").src = "img/on.jpg";
+      document.getElementById("settime").value = "倒數中";
+      document.getElementById("timer").className = "btn btn-primary";
+      document.getElementById("timer").innerHTML = timeLeft;
+
+      function countDownTimer() {
+        timeLeft--;
+        if (timeLeft > 3) {
+          document.getElementById("timer").className = "btn btn-primary";
+        } else if (timeLeft > 0) {
+          document.getElementById("timer").className = "btn btn-warning";
+        } else if (timeLeft <= 0) {
+          state = false;
+          document.getElementById("timer").className = "btn btn-danger";
+          document.getElementById("image").src = "img/off.jpg";
+          document.getElementById("settime").value = "再玩一次";
+          document.getElementById("timeinput").value = "";
+          clearInterval(id);
+        }
+        document.getElementById("timer").innerHTML = timeLeft;
+      }
+      var id = setInterval(countDownTimer, 1000);
+    }
+  }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
