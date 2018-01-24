@@ -20,48 +20,85 @@
       </nav>
     </div>
     <div class="row justify-content-center mt-5">
-      <div class="col col-6">
-        <form class="form-inline">
-          <div class="form-group">
+      <form>
+        <div class="form-row align-items-center">
+          <div class="col-auto">
             <input type="text" class="form-control mr-3" id="input" placeholder="Enter">
           </div>
-          <input type="button" class="btn btn-primary" value="+" onclick="createToDo();">
-        </form>
-      </div>
+          <div class="col-auto">
+            <input type="button" class="btn btn-primary" value="+" onclick="createToDo();">
+          </div>
+        </div>
+        <div class="form-row align-items-center mt-2">
+          <div class="col-auto">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="warnringRadios" id="normal" value="normal" checked>
+              <label class="form-check-label" for="exampleRadios2">
+                不緊急
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="warnringRadios" id="warnring" value="warnring">
+              <label class="form-check-label" for="exampleRadios1">
+                緊急
+              </label>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
     <div class="row justify-content-center mt-5">
-      <div class="col col-6" id="todolist">
+      <div class="col col-6">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="todolist">
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
   <script>
   function createToDo() {
-    var todo = document.createElement("div");
-    var span = document.createElement("span");
+    var todo = document.createElement("tr");
+    var task = document.createElement("td");
+    var action = document.createElement("td");
     var replaceButton = document.createElement("button");
     var removeButton = document.createElement("button");
+    var warnringRadio = document.getElementById("warnring")
 
     var input = document.getElementById("input").value;
     if (input != "") {
-      span.innerHTML = input;
-      todo.appendChild(span);
+      task.innerHTML = input;
+      warnringRadio.checked ? task.className = "text-danger" : task.className = "text-success"
+      todo.appendChild(task);
       replaceButton.textContent = "R";
-      replaceButton.className = "btn btn-success ml-2"
-      todo.appendChild(replaceButton);
+      replaceButton.className = "btn btn-success btn-sm"
+      action.appendChild(replaceButton);
       removeButton.textContent = "V";
-      removeButton.className = "btn btn-danger ml-2"
-      todo.appendChild(removeButton);
+      removeButton.className = "btn btn-danger btn-sm ml-2"
+      action.appendChild(removeButton);
+      todo.appendChild(action);
       document.getElementById("input").value = "";
     }
     replaceButton.onclick = function() {
       var input = document.getElementById("input").value;
       if (input != "") {
-        this.parentNode.firstChild.innerHTML = input;
+        var thistask = this.parentNode.parentNode.firstChild ;
+        thistask.innerHTML = input;
+        warnringRadio.checked ? thistask.className = "text-danger" : thistask.className = "text-success"
       }
       document.getElementById("input").value = "";
     }
     removeButton.onclick = function() {
-      this.parentNode.parentNode.removeChild(this.parentNode);
+      if (confirm("確定完成了嗎")) {
+        this.parentNode.parentNode.firstChild.className = "text-muted";
+        this.parentNode.parentNode.removeChild(this.parentNode);
+      }
     }
     var todolist = document.getElementById("todolist");
     todolist.appendChild(todo);

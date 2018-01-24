@@ -75,7 +75,9 @@
       document.getElementById("input").value = "";
     }
     removeButton.onclick = function() {
-      this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+      if (confirm("確定完成了嗎")){
+        this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+      }
     }
     var todolist = document.getElementById("todolist");
     todolist.appendChild(todo);
