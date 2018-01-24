@@ -64,6 +64,7 @@
     } else {
       document.getElementById("image").src = "img/on.jpg";
       document.getElementById("settime").value = "倒數中";
+      document.getElementById("settime").disabled = true;
       document.getElementById("timer").className = "btn btn-primary";
       document.getElementById("timer").innerHTML = timeLeft;
 
@@ -77,6 +78,7 @@
           state = false;
           document.getElementById("timer").className = "btn btn-danger";
           document.getElementById("image").src = "img/off.jpg";
+          document.getElementById("settime").disabled = false;
           document.getElementById("settime").value = "再玩一次";
           document.getElementById("timeinput").value = "";
           clearInterval(id);
